@@ -9,7 +9,7 @@ const passport = require('passport');
 const keys = require('../../config/keys');
 
 // Load Input validation
-const validateRegister = require('../../validation/register')
+const validateRegisterInput = require('../../validation/register')
 
 // Load User Model
 const User = require('../../models/User');
@@ -23,7 +23,7 @@ router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
 // Desc: register users route
 // Access: Public
 router.post('/register', (req, res) => {
-  const { errors, isValid } = validateRegister(req.body);
+  const { errors, isValid } = validateRegisterInput(req.body);
 
   // Check validation
   if (!isValid) {
