@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+// Load validation
+const validateProfileInput = require('../../validation/profile')
+
 // Load profile model
 const Profile = require('../../models/Profile');
 // Load user model
@@ -20,6 +23,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
   const errors = {};
 
   Profile.findOne({ user: req.user.id })
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
       if (!profile) {
         errors.noprofile = 'There is no profile for this user'
@@ -34,8 +38,15 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 // Desc: Create or edit user profile
 // Access: Private
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { errors, isValid } = validateProfileInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   // Get fields
-  const profilefields = {};
+  const profileFields = {};
   profileFields.user = req.user.id;
   
   if (req.body.handle) profileFields.handle = req.body.handle;
@@ -59,7 +70,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
   if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
-  profile.findOne({ user: req.user.id })
+  Profile.findOne({ user: req.user.id })
     .then(profile => {
       if (profile) {
         // Update
@@ -73,7 +84,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
         // Create
 
         // Check if handle exists
-        Profile.findOne({ handle: profilefields.handle })
+        Profile.findOne({ handle: profileFields.handle })
           .then(profile => {
             if (profile) {
               errors.handle = 'That profile already exists';
@@ -81,7 +92,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
             }
 
             // Save profile
-            new Profile(profilefields)
+            new Profile(profileFields)
               .save()
               .then(profile => res.json(profile));
           });
