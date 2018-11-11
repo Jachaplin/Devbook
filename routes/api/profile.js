@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 // Load validation
-const validateProfileInput = require('../../validation/profile')
+const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 
 // Load profile model
 const Profile = require('../../models/Profile');
@@ -154,5 +156,69 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
     });
 
 });
+
+// Route: POST api/profile/experience
+// Desc: Add experience to profile
+// Access: Private
+router.post('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { errors, isValid } = validateExperienceInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  
+  Profile.findOne({ user: req.user.id })
+  .then(profile => {
+    const newExp = {
+      title: req.body.title,
+      company: req.body.company,
+      location: req.body.location,
+      from: req.body.from,
+      to: req.body.to,
+      current: req.body.current,
+      discription: req.body.discription
+    }
+
+    // Add to experience array. Use unshift to add to the beginning of the array
+    profile.experience.unshift(newExp);
+    // Save experience to profile
+    profile
+      .save()
+      .then(profile => res.json(profile)); 
+  })
+})
+
+// Route: POST api/profile/education
+// Desc: Add education to profile
+// Access: Private
+router.post('/education', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { errors, isValid } = validateEducationInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  
+  Profile.findOne({ user: req.user.id })
+  .then(profile => {
+    const newEdu = {
+      school: req.body.school,
+      degree: req.body.degree,
+      fieldofstudy: req.body.fieldofstudy,
+      from: req.body.from,
+      to: req.body.to,
+      current: req.body.current,
+      discription: req.body.discription
+    }
+
+    // Add to education array. Use unshift to add to the beginning of the array
+    profile.education.unshift(newEdu);
+    // Save education to profile
+    profile
+      .save()
+      .then(profile => res.json(profile)); 
+  })
+})
 
 module.exports = router;
