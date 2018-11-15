@@ -183,5 +183,4 @@ router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', { session
     .catch(err => res.status(404).json({ postnotfound: 'No post found' }))
 })
 
-
 module.exports = router;
