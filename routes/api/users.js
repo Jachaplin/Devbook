@@ -10,6 +10,7 @@ const keys = require('../../config/keys');
 
 // Load Input validation
 const validateRegisterInput = require('../../validation/register')
+const validateLoginInput = require('../../validation/login');
 
 // Load User Model
 const User = require('../../models/User');
@@ -68,15 +69,24 @@ router.post('/register', (req, res) => {
 // Desc: Login users / Returning JWT Token
 // Access: Public
 router.post('/login', (req, res) => {
+
+  const { errors, isValid } = validateLoginInput(req.body)
+
   const email = req.body.email;
   const password = req.body.password;
+
+    // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
 
   // Find user by email
   User.findOne({email})
     .then(user => {
       // Check for user
       if (!user) {
-        return res.status(404).json({ email: 'User not found' });
+        errors.email = 'User not found'
+        return res.status(404).json(errors);
       }
       // Check password
       bcrypt.compare(password, user.password)
