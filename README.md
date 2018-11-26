@@ -2,7 +2,7 @@
 
 ![Image of Devbook landing page](https://github.com/Jachaplin/Devbook/blob/master/client/src/img/Devbook-landing-screen-shot.png)
 
-A Social Media Platform for connecting Web Developers. This app was built using Node.js, Express, React, Redux, Bootstrap and MongoDB along with ES6+. Some of the steps used to build this app included...
+A Social Media Platform for connecting Developers. This app was built using Node.js, Express, React, Redux, Bootstrap and MongoDB along with ES6+. Some of the steps used to build this app included...
 
 * Building an extensive backend API with Node.js & Express
 * Protecting routes/endpoints with JWT (JSON Web Tokens)
