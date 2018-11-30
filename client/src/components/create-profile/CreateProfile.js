@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/textFieldGroup'
 import TextAreaFieldGroup from '../common/textAreaFieldGroup'
 import SelectListGroup from '../common/selectListGroup'
 import InputGroup from '../common/inputGroup'
+import { createProfile } from '../../actions/profileActions';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -28,10 +30,31 @@ class CreateProfile extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors })
+    }
+  }
+
   onSubmit = (event) => {
     event.preventDefault();
 
-    console.log('submit')
+    const profileData = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      githubusername: this.state.githubusername,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    }
+    this.props.createProfile(profileData, this.props.history)
   }
 
   onChange = (event) => {
@@ -155,7 +178,7 @@ class CreateProfile extends Component {
                   info="City or city & state suggested (eg. Seattle, WA)"
                 />
                 <TextFieldGroup
-                  placeholder="Skills"
+                  placeholder="*Skills"
                   name="skills"
                   value={this.state.skills}
                   onChange={this.onChange}
@@ -180,9 +203,11 @@ class CreateProfile extends Component {
                 />
 
                 <div className="mb-3">
-                  <button onClick={() => {
-                    this.setState(prevState => ({
-                      displaySocialInputs: !prevState.displaySocialInputs
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      this.setState(prevState => ({
+                        displaySocialInputs: !prevState.displaySocialInputs
                     }))
                   }} className="btn btn-light">
                     Add Social Network Links
@@ -210,4 +235,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(mapStateToProps, { createProfile })(withRouter(CreateProfile));
