@@ -33,6 +33,7 @@ class CreateProfile extends Component {
 
   componentDidMount() {
     this.props.getCurrentProfile()
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -103,9 +104,10 @@ class CreateProfile extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+
+
   render() {
     const { errors, displaySocialInputs } = this.state;
-
     let socialInputs;
 
     if (displaySocialInputs) {
