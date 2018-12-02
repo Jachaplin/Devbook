@@ -179,7 +179,7 @@ router.post('/experience', passport.authenticate('jwt', { session: false }), (re
       from: req.body.from,
       to: req.body.to,
       current: req.body.current,
-      discription: req.body.discription
+      description: req.body.description
     }
 
     // Add to experience array. Use unshift to add to the beginning of the array
@@ -213,7 +213,7 @@ router.post('/education', passport.authenticate('jwt', { session: false }), (req
       from: req.body.from,
       to: req.body.to,
       current: req.body.current,
-      discription: req.body.discription
+      description: req.body.description
     }
 
     // Add to education array. Use unshift to add to the beginning of the array

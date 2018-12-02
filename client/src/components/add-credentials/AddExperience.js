@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/textFieldGroup';
 import TextAreaFieldGroup from '../common/textAreaFieldGroup';
+import { addExperience } from '../../actions/profileActions';
+
 
 
 class AddExperience extends Component {
@@ -22,9 +24,25 @@ class AddExperience extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors})
+    }
+  }
+
   onSubmit = event => {
     event.preventDefault();
+    const expData = {
+      company: this.state.company,
+      title: this.state.title,
+      location: this.state.location,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    }
 
+    this.props.addExperience(expData, this.props.history)
     console.log('submit')
   }
 
@@ -35,7 +53,8 @@ class AddExperience extends Component {
   onCheck = event => {
     this.setState({
       disabled: !this.state.disabled,
-      current: !this.state.current
+      current: !this.state.current,
+      to: ''
     })
   }
 
@@ -109,11 +128,12 @@ class AddExperience extends Component {
                   </label>
                 </div>
                 <TextAreaFieldGroup 
-                  placeholder="Description"
+                  placeholder="Job Description"
                   name="description"
                   value={this.state.description}
                   onChange={this.onChange}
                   error={errors.description}
+                  info="Tell us about the position"
                 />
                 <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
               </form>
@@ -126,6 +146,7 @@ class AddExperience extends Component {
 }
 
 AddExperience.propTypes = {
+  addExperience: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
@@ -135,5 +156,5 @@ const mapStateToProps = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps)(withRouter(AddExperience));
+export default connect(mapStateToProps, { addExperience })(withRouter(AddExperience));
         
