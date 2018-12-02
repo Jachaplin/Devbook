@@ -29,7 +29,6 @@ class Experience extends Component {
               <th>Company</th>
               <th>Title</th>
               <th>Years</th>
-              <tr></tr>
             </tr>
               {experience}
           </thead>
@@ -44,4 +43,4 @@ Experience.propTypes = {
 }
 
 export default connect(null, { deleteExperience })(Experience);
-            
+                          
