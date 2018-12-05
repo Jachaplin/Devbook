@@ -65,7 +65,7 @@ router.get('/handle/:handle', (req, res) => {
     .then(profile => {
       if (!profile) {
         errors.noprofile = 'There is no profile for this user'
-        return res.status(404).json(errors);
+        res.status(404).json(errors);
       }
       res.json(profile)
     })
