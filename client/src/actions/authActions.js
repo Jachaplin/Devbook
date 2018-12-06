@@ -57,5 +57,7 @@ export const logOutUser = history => dispatch => {
   // Set current user to empty {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
   // Redirect to landing page
-  history.push('/')
+  if (history) {
+    history.push('/')
+  }
 }
