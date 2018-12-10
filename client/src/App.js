@@ -22,9 +22,9 @@ import AddExperience from './components/add-credentials/AddExperience';
 import AddEducation from './components/add-credentials/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
-import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
+import NotFound from './components/not-found/NotFound';
 
 import './App.css';
 
@@ -38,6 +38,7 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
+
   // Check for expired token
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
@@ -58,7 +59,7 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <Route exact path="/" component={Landing} />
-            <div className="container">
+            <div className="container content-height">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/profiles" component={Profiles} />

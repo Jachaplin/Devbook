@@ -1,6 +1,6 @@
 node_modules
 .DS_Store
 .env
-config
+/config/keys_dev.js
 dev.js
 prod.js

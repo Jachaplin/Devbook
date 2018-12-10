@@ -50,8 +50,7 @@ CommentItem.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
-	post: state.post
+	auth: state.auth
 });
 
 export default connect(
