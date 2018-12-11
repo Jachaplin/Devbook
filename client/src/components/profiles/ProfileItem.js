@@ -5,20 +5,42 @@ import isEmpty from '../../validation/is-empty';
 
 export class ProfileItem extends Component {
   render() {
-    const { profile } = this.props
+    const { profile } = this.props;
     return (
       <div className="card card-body bg-light mb-3">
         <div className="row">
           <div className="col-2">
-            <img src={profile.user.avatar} alt="user avatar" className="rounded-circle"/>
+            <img
+              src={profile.user.avatar}
+              alt="user avatar"
+              className="rounded-circle"
+            />
           </div>
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{profile.user.name}</h3>
             <p>
-               {profile.status} {isEmpty(profile.company) ? null : (<span> at {profile.company}</span>)}
+              {profile.user.name !== 'Jake Chaplin' ? null : (
+                <span>
+                  <i class="far fa-flag" />
+                  <span> Creator of Devbook</span>
+                </span>
+              )}
             </p>
             <p>
-              {isEmpty(profile.location) ? null : (<span>{profile.location}</span>)}
+              {profile.company !== 'Freelance' ? null : (
+                <span>{profile.company} </span>
+              )}
+              {'  '}
+              {profile.status}{' '}
+              {isEmpty(profile.company) ||
+              profile.company === 'Freelance' ? null : (
+                <span>at {profile.company}</span>
+              )}
+            </p>
+            <p>
+              {isEmpty(profile.location) ? null : (
+                <span>{profile.location}</span>
+              )}
             </p>
             <Link to={`/profile/${profile.handle}`} className="btn btn-info">
               View Profile
@@ -30,7 +52,7 @@ export class ProfileItem extends Component {
               {profile.skills.slice(0, 4).map((skill, index) => (
                 <li key={index} className="list-group-item">
                   <i className="fa fa-check pr-1" />
-                  {skill} 
+                  {skill}
                 </li>
               ))}
             </ul>
@@ -43,6 +65,6 @@ export class ProfileItem extends Component {
 
 ProfileItem.propTypes = {
   profile: PropTypes.object.isRequired
-}
+};
 
 export default ProfileItem;
