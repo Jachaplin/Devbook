@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import githubKeys from '../../config/githubKeys'
 
 class ProfileGithub extends Component {
   constructor(props) {
