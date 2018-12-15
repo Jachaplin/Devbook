@@ -4,7 +4,6 @@ import isEmpty from '../../validation/is-empty';
 class ProfileHeader extends Component {
   render() {
     const { profile } = this.props;
-    const devCreator = process.env.DEVBOOK_CREATOR;
 
     return (
       <div className="row">
@@ -23,7 +22,7 @@ class ProfileHeader extends Component {
               <h1 className="display-4 text-center">{profile.user.name}</h1>
               <p className="lead text-center">
                 <p className="lead text-center">
-                  {profile.user.id !== devCreator ? null : (
+                  {profile.user._id !== '5c0e5202e02d54273124ebbc' ? null : (
                     <span>
                       <i class="far fa-flag" />
                       <span> Creator of Devbook</span>
