@@ -6,7 +6,6 @@ import isEmpty from '../../validation/is-empty';
 export class ProfileItem extends Component {
   render() {
     const { profile } = this.props;
-    const devCreator = process.env.DEVBOOK_CREATOR;
     return (
       <div className="card card-body bg-light mb-3">
         <div className="row">
@@ -20,7 +19,7 @@ export class ProfileItem extends Component {
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{profile.user.name}</h3>
             <p>
-              {profile.user.id !== devCreator ? null : (
+              {profile.user._id !== '5c0e5202e02d54273124ebbc' ? null : (
                 <span>
                   <i class="far fa-flag" />
                   <span> Creator of Devbook</span>
